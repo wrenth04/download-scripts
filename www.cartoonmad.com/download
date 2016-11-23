@@ -1,0 +1,23 @@
+#!/bin/bash
+
+GET() {
+  wget -U "Mozilla" -q $@
+}
+
+DIST="dist"
+PREFIX="http://web2.cartoonmad.com/c86es736z62/1453"
+#http://web2.cartoonmad.com/c86es736z62/1453/001/001.jpg
+
+mkdir $DIST 
+
+cat menu.txt | while read link no pages; do
+  echo "download $no ($pages pages)"
+  mkdir "$DIST/$no"
+  i=0
+  while [ ! $i = $pages ]; do
+    i=$((i+1))
+    id=$((i+1000)); id=${id#1}
+    echo $id
+    GET -O "$DIST/$no/$no-$id.jpg" "$PREFIX/$no/$id.jpg"
+  done
+done
