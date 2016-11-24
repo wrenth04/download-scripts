@@ -1,0 +1,15 @@
+#!/bin/bash
+
+for i in {1..148}; do
+  id=$((i+1000)); id=${id#1}
+  n=$(ls|grep $id | grep mkv)
+  echo $n
+  info=$(mkvinfo "$n")
+  info=${info%%简*}
+  info=${info%UID*}
+  info=${info##*ID}
+  info=${info#* }
+  ass=${info%)*}
+  mkvextract tracks "$n" $ass:$id.ass
+  ass2srt $id.ass -o $id.srt
+done
