@@ -1,0 +1,1 @@
+docker build --tag $IMAGE_NAME:$(git rev-parse HEAD | cut -c1-7) .
