@@ -1,0 +1,28 @@
+proxytunnel
+#vim ~/.ssh/config
+serveraliveinterval 60
+ Host home
+      ProtocolKeepAlives 30
+      ProxyCommand /usr/bin/proxytunnel -p $inner_proxy:port -P $user:$pass -r proxy.hinet.net:80 -d wei.dyndns-ip.com:443 -H "User-Agent: Mozilla/4.0  (compatible; MSIE 6.0; Win32)\n"
+#ssh root@home
+
+plink
+connection > proxy > proxytype : local
+telenet command, or local proxy command :
+proxytunnel -q -p $inner_proxy:port -P $user:$pass -r proxy.hinet.net:80 -d %host:%port -H "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Win32)\n"
+
+#vim autoplink
+while [ true ]; do
+host wei.dyndns-ip.com
+plink -N -v root@home -D 8080 -L 8081:127.0.0.1:2222 -R 3333:127.0.0.1:22 -pw $password
+sleep 20
+done
+-D sock5 proxy
+-L local forward
+-R remote forward
+
+proxychains
+#vim /etc/proxychains.conf
+[ProxyList]
+socks5  127.0.0.1 8080
+
