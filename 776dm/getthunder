@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cat list.txt | while read url; do
+  html=$(wget -U Mozilla -q -O - "$url")
+  thunder=${html#*thunder}
+  thunder=${thunder%%\"*}
+  echo thunder$thunder >> thunder.txt
+done
