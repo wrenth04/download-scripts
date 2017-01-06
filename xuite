@@ -1,0 +1,29 @@
+#!/bin/bash
+
+url=$1
+html=$(wget -U Mozilla -O - "$url")
+
+html=${html#*verify_code_key}; html=${html#*value=\'}
+verify_code_key=${html%%\'*}
+
+html=${html#*verify_code_checksum}; html=${html#*value=\'}
+verify_code_checksum=${html%%\'*}
+
+html=${html#*click_ad_key}; html=${html#*value=\'}
+click_ad_key=${html%%\'*}
+
+html=${html#*verify_code_value}; html=${html#*value=\'}
+verify_code_value=${html%%\'*}
+
+html=${html#*share-download-file-name}; html=${html#*b>}
+name=${html%%<*}
+
+echo "download $name"
+html=$(wget -U Mozilla -O -  "$url?download" --post-data "verify_code_key=$verify_code_key&verify_code_checksum=$verify_code_checksum&click_ad_key=$click_ad_key&verify_code_value=$verify_code_value")
+
+file=${html#*replace(\'}; file=${file%%\'*}
+echo $file
+
+sleep 10
+
+wget -U Mozilla -O "$name" "$file"
