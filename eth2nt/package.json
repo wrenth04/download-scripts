@@ -1,0 +1,16 @@
+{
+  "name": "eth2nt",
+  "version": "0.0.1",
+  "description": "eth to nt",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "moment": "^2.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
