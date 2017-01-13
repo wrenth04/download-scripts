@@ -1,5 +1,6 @@
 const moment = require('moment');
 const axios = require('axios');
+const printf = require('printf');
 
 var rate = {
   eth: { btc: -1},
@@ -7,16 +8,20 @@ var rate = {
 };
 
 run();
-setInterval(run, 1000*60);
+setTimeout(run, 1000*2);
+setInterval(run, 1000*15);
 
 function run() {
-  console.log(rate)
-
   eth2Btc();
   btc2Nt();
 
   if(rate.eth.btc == -1 || rate.btc.nt == -1) return;
-  console.log(moment().format() + ': eth to nt = ' + rate.eth.btc*rate.btc.nt);
+  const s = printf('%s | %.8f | %d | %.8f',
+    moment().format(),
+    rate.eth.btc,
+    rate.btc.nt,
+    rate.eth.btc*rate.btc.nt);
+  console.log(s);
 }
 
 function eth2Btc() {
