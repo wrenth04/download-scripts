@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cat $1 | 
+  iconv -f gbk -t utf8 | 
+  sed "s/&ldquo;/\"/g" | sed "s/&rdquo;/\"/g" |
+  sed "s/&mdash;/—/g" |
+  sed "s/&amp;/&/g" |
+  sed "s/&gt;/>/g" | sed "s/&lt;/</g" |
+  sed "s/<p>//g" | sed "s/<\/p>//g" |
+  sed "s/<u>//g" | sed "s/<\/u>//g" |
+  sed "s/&hellip;/…/g" > $2
+

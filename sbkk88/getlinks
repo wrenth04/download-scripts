@@ -1,0 +1,14 @@
+#!/bin/bash
+
+html=$(wget -q -O - "$1")
+
+link=${html#*href=\"}
+while :; do
+  if [ "$link" = "$html" ]; then break; fi
+  
+  html="$link"
+  link=${link%%\"*}
+
+  echo $link
+  link=${html#*href=\"}
+done
