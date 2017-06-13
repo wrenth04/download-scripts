@@ -48,5 +48,5 @@ i=$from
 while [ ! $i = $to ]; do
   echo $i
   node forum.js $i | getThreads
-  break
+  i=$((i+1))
 done
