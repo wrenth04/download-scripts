@@ -31,8 +31,8 @@ EOF
   js=$(node enc.js)
   video=${js#*file: \"}; video=${video%%\"*}
 
-  wget -q -O - --referer "$link" "$img" | gdrive upload - -p $FID "$title.jpg" 
   wget -q -O - --referer "$url" "$video" | gdrive upload - -p $FID "$title.mp4" 
+  wget -q -O - --referer "$link" "$img" | gdrive upload - -p $FID "$title.jpg" 
 }
 
 for page in {1..50}; do
