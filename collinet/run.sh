@@ -2,6 +2,9 @@
 
 #FID=
 
+from=$1
+to=$2
+
 checkDrive() {
   title=$1
   n=$(gdrive list -q "'$FID' in parents and trashed = false and name = '$title'" | wc -l)
@@ -22,20 +25,23 @@ download() {
   encFunc2=${encFunc2#*write}; encFunc2="${encFunc2%%function*}"; encFunc2=${encFunc2%;*}
   html=$(wget -q -O - -U Mozilla --referer "$player" "$url")
   ccsJs=$(echo "$html" | grep ccsJs)
-cat<<EOF > enc.js
+  encfile="enc.$RANDOM.js"
+cat<<EOF > $encfile
 $encFunc
 eval($encFunc2.replace('<script>', '').replace('</script>', ''))
 $ccsJs
 console.log(unescape(myencryptHTML(ccsJsCmds)))
 EOF
-  js=$(node enc.js)
+  js=$(node $encfile)
   video=${js#*file: \"}; video=${video%%\"*}
+  rm $encfile
 
   wget -q -O - --referer "$url" "$video" | gdrive upload - -p $FID "$title.mp4" 
   wget -q -O - --referer "$link" "$img" | gdrive upload - -p $FID "$title.jpg" 
 }
 
-for page in {1..50}; do
+page=$from
+while [ ! $page = $to ]; do
   echo "page $page"
   html=$(wget -q -O - -U Mozilla "http://www.coolinet.com/tag/chinese/page/$page/")
   x=$html
@@ -54,4 +60,5 @@ for page in {1..50}; do
     x=$x2
     x2=${x#*videoPost}
   done
+  page=$((page+1))
 done
