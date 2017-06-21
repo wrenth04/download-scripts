@@ -1,0 +1,4 @@
+### Useage
+```
+./hdvideo.sh $videourl
+```
