@@ -1,0 +1,8 @@
+ac 動作
+rpg 角色扮演
+adv 冒險
+si 模擬
+sport 運動
+st 策略
+int 智育
+wg 戰略
