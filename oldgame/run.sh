@@ -7,6 +7,8 @@ cat type.txt | while read en ch; do
   html=$(wget -U Mozilla -q -O - "$url" | iconv -f big5 -t utf8)
 
   node parseList "$html" | while read url name; do
+    name=$(echo "$name" | sed "s/\///g")
+    if [ -e "$ch/$name" ]; then continue; fi
     echo "download $ch/$name"
     html=$(wget -U Mozilla -q -O - "http://boneash.oldgame.tw/Pc/$url" | iconv -f big5 -t utf8)
     fileid=${html#*google}; fileid=${fileid#*d/}; fileid=${fileid%%/*}
