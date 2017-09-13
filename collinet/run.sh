@@ -42,7 +42,7 @@ EOF
 
 page=$from
 while [ ! $page = $to ]; do
-  echo "page $page"
+  echo "$(date): page $page"
   html=$(wget -q -O - -U Mozilla "http://www.coolinet.com/tag/chinese/page/$page/")
   x=$html
   x2=${x#*videoPost}
