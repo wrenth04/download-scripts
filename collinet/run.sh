@@ -20,7 +20,7 @@ download() {
   html=$(wget -q -O - -U Mozilla "$link")
   player=${html#*allmyplayer}; player=${player#*src=\"}; player=${player%%\"*}
   html=$(wget -q -O - -U Mozilla --referer "$link" "$player")
-  url=${html#*get_coolinet}; url="http://play.52av.tv/api/get_coolinet${url%%\"*}"
+  url=${html#*get_coolinet}; url="http://video2.yocoolnet.com/api/get_coolinet${url%%\"*}"
   encFunc=${html#*myencryptHTML}; encFunc2="$encFunc"; encFunc="function myencryptHTML${encFunc%%document*}"
   encFunc2=${encFunc2#*write}; encFunc2="${encFunc2%%function*}"; encFunc2=${encFunc2%;*}
   html=$(wget -q -O - -U Mozilla --referer "$player" "$url")
@@ -36,7 +36,7 @@ EOF
   video=${js#*file: \"}; video=${video%%\"*}
   rm $encfile
 
-  wget -q -O - --referer "$url" "$video" | gdrive upload - -p $FID "$title.mp4" 
+  wget -q -O - --referer "$url" "http://video2.yocoolnet.com$video" | gdrive upload - -p $FID "$title.mp4" 
   wget -q -O - --referer "$link" "$img" | gdrive upload - -p $FID "$title.jpg" 
 }
 
