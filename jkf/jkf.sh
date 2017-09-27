@@ -5,7 +5,7 @@ url=$1
 function getDriveId() {
   while read line; do
     f1=${line#*/file/d/}
-    f2=${line#*/id=/}
+    f2=${line#*id=}
 
     if [ ! "$line" = "$f1" ]; then
       id=${f1%%\"*}
