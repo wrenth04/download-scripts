@@ -7,7 +7,6 @@ folderId=$2
 TOKEN="Bearer token"
 ROOT_ID="root id"
 
-exit
 json=$(curl -X POST -H "Authorization: $TOKEN" -H "Content-Type: application/json" "https://www.googleapis.com/drive/v3/files/$fileId/copy" -d '{}')
 
 id=${json#*id\": \"}; id=${id%%\"*}
