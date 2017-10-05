@@ -1,5 +1,10 @@
 #!/bin/bash
 
+### reference
+# https://www.npmjs.com/package/googleapis
+# https://developers.google.com/drive/v3/reference/files/copy
+# https://developers.google.com/drive/v3/reference/files/update
+
 # copy.sh fileId folderId
 fileId=$1
 folderId=$2
