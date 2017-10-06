@@ -12,4 +12,4 @@ folderId=$2
 TOKEN="token"
 AUTH="Authorization: Bearer $token"
 
-curl -X POST -H "$TOKEN" -H "Content-Type: application/json" "https://www.googleapis.com/drive/v3/files/$fileId/copy" -d "{\"parents\":[\"$folderId\"]}"
+curl -X POST -H "$AUTH" -H "Content-Type: application/json" "https://www.googleapis.com/drive/v3/files/$fileId/copy" -d "{\"parents\":[\"$folderId\"]}"
