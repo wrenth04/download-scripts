@@ -1,11 +1,20 @@
 #!/bin/bash
 
+TOKEN_FILE="$HOME/.gdrive/token_v2.json"
 TOKEN="Authorization: Bearer token"
-PARENT="folder id"
+PARENT="forder id"
 
 get() {
   wget -O - -U Mozilla -q --load-cookies cookies.txt --save-cookies cookies.txt --keep-session-cookies $@
 }
+
+updateToken() {
+  o=$(gdrive list)
+  token=$(grep access_token "$TOKEN_FILE")
+  token=${token#*access_token\": \"}; token=${token%%\"*}
+  TOKEN="Authorization: Bearer $token"
+}
+
 
 copy() {
   id=$1; name="$2"
@@ -42,9 +51,12 @@ parseVideo() {
 }
 
 cat list.txt | while read url img name; do
+  echo $name
+  updateToken
   if [ $(checkFile "$name.mp4") = 1 ]; then
     continue
   fi
   wget -q -O - "$img" | gdrive upload - -p $PARENT "$name.jpg"
   parseVideo "$url"
+  sleep 60
 done
