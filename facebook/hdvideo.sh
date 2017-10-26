@@ -5,9 +5,12 @@ url=$1
 
 html=$(wget -U Mozilla -q -O - "$url")
 
-video=${html#*video:}; video=${video#*url:\"}; video=${video%%\"*}
-title=${html#*pageTitle\">}; title=${title%%<*}
-audio=${html#*audio:[}; audio=${audio#*url:\"}; audio=${audio%%\"*}
+vhtml=$(echo "$html" | grep "video:")
+video=${vhtml#*video:}; video=${video#*url:\"}; video=${video%%\"*}
+thtml=$(echo "$html" | grep "pageTitle")
+title=${thtml#*pageTitle\">}; title=${title%%<*}
+ahtml=$(echo "$html" | grep "audio:")
+audio=${ahtml#*audio:[}; audio=${audio#*url:\"}; audio=${audio%%\"*}
 
 echo "download $title"
 
