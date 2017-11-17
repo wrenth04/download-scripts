@@ -7,8 +7,12 @@ html=$(wget -U "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gec
 
 thtml=$(echo "$html" | grep "pageTitle")
 title=${thtml#*pageTitle\">}; title=${title%%<*}
+ahtml=$(echo "$html" | grep "audio:")
+audio=${ahtml#*audio:[}; audio=${audio#*url:\"}; audio=${audio%%\"*}
 echo "download $title"
 
+r=$RANDOM
+wget -U Mozilla --referer "$url" -O "audio.$r.aac" "$audio"
 for q in 1080p 720p 480p; do
   x=$(echo "$html" | grep "\"$q")
   if [ "x$x" = "x" ]; then continue; fi
@@ -16,7 +20,13 @@ for q in 1080p 720p 480p; do
   video=${x#*$q}; video=${video#*http}; video=${video%%\\x3C*}
   video=$(echo "$video" | sed "s/\&amp;/\&/g")
 
-  wget -U Mozilla -O "$title.$q.mp4" "http$video"
+  wget -U Mozilla --referer "$url" -O "video.$r.mp4" "http$video"
+  ffmpeg -y -nostdin -i "video.$r.mp4" -i "audio.$r.aac" -c copy "$title.$q.mp4"
+
+  if [ $? = 0 ]; then
+    rm "video.$r.mp4"
+    rm "audio.$r.aac"
+  fi
 
   break
 done
