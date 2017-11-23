@@ -2,9 +2,8 @@
 
 url=$1
 
-token=$(node token.js)
-purl_token=${token#*purl_token:}; purl_token=${purl_token%%,*}
-token=${token##*token:}
+purl_token="bilibili_$(date +%s)"
+token=$(echo -n "$purl_token" | md5)
 
 page=${url#*page=}
 if [ "x$page" = "x" ]; then page=1; fi
