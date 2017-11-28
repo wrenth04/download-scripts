@@ -14,8 +14,8 @@ x2=${x#*href=\"}
 
 while [ ! "$x" = "$x2" ]; do
   link=${x2%%\"*}
-  html=$(wget --content-on-error -O - -q -U Mozilla --referer "$url" "$link")
-  id=${html#*id=}; id=${id%%&*}
+  #html=$(wget --content-on-error -O - -q -U Mozilla --referer "$url" "$link")
+  id=${x#*id=}; id=${id%%&*}
   gdrive download $id
 
   x=${x2}
