@@ -17,4 +17,4 @@ for q in "1280x720" "848x480"; do
   break
 done
 
-wget -U Mozilla -O "$title.$q.mp4" "https://www.dailymotion.com/cdn/H264-1280x720$video"
+wget -U Mozilla -O "$title.$q.mp4" "https://www.dailymotion.com/cdn/H264-$q$video"
