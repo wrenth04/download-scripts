@@ -9,7 +9,7 @@ title=${title#*content=\"}; title=${title%%\"*}
 title=${title% - Dailymotion*}
 title=$(echo "$title" | sed "s/\//\./g")
 
-for q in "1280x720" "848x480"; do
+for q in "1920x1080" "1280x720" "848x480"; do
   video=$(echo "$html" | grep "$q")
   if [ "x" = "x$video" ]; then continue; fi
   video=${video##*$q}; video=${video%%\"*}
