@@ -1,0 +1,54 @@
+<html>
+<head>
+<script>
+
+var params = {};
+document.location.search.replace('?', '').split('&').forEach(s => {
+  var k = s.split('=')[0];
+  var v = decodeURIComponent(s.split('=')[1]);
+  params[k] = v;
+});
+
+var title = params.title;
+var ids = params.ids.split(',');
+
+function init() {
+  var $log = document.querySelector('#log');
+  $log.innerHTML = `copy ${title}... please allow open window <br />
+id list: <br />
+${ids.join('<br />')}
+`;
+
+  var parentId;
+  new Promise(reslove => gapi.load('client:auth2', reslove))
+    .then(() => gapi.client.init({
+      clientId: '1029231814918-l22c0cqkah8cfgj34o7pf7g545rr3bbr.apps.googleusercontent.com',
+      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+      scope: 'https://www.googleapis.com/auth/drive' 
+    }))
+    .then(() => gapi.auth2.getAuthInstance().isSignedIn.get() ? null : gapi.auth2.getAuthInstance().signIn())
+    .then(() => gapi.client.drive.files.create({
+      resource: {name: title, mimeType: 'application/vnd.google-apps.folder'},
+      fields: 'id'
+    }))
+    .then(res => parentId = JSON.parse(res.body).id)
+    .then(() => Promise.all(ids.map(id => gapi.client.drive.files.copy({ 
+      fileId: id,
+      parents: [parentId]
+    }))))
+    .then(() => document.location.href = `https://drive.google.com/drive/u/0/folders/${parentId}`)
+    .then(() => console.log('success'))
+    .catch(console.log);
+}
+
+</script>
+</head>
+<body>
+    <div id="log"></div>
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};init()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+
+</body>
+</html>
