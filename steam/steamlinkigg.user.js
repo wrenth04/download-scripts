@@ -2,8 +2,8 @@
 // @name         steam link igg
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  yc = 87
-// @author       You
+// @description  steam link igg
+// @author       wrenth04
 // @match        http://store.steampowered.com/app/*
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
