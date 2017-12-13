@@ -27,6 +27,11 @@ ${ids.join('<br />')}
       scope: 'https://www.googleapis.com/auth/drive' 
     }))
     .then(() => gapi.auth2.getAuthInstance().isSignedIn.get() ? null : gapi.auth2.getAuthInstance().signIn())
+    .then(() => gapi.client.drive.files.list({
+      q:`name='${title}' and trashed=false and mimeType='application/vnd.google-apps.folder'`
+    }))
+    .then(res => res.result.files.length ? res.result.files[0].id : null)
+    .then(id => new Promise((reslove, reject) => !id ? reslove() : reject(document.location.href=`https://drive.google.com/drive/u/0/folders/${id}`)))
     .then(() => gapi.client.drive.files.create({
       resource: {name: title, mimeType: 'application/vnd.google-apps.folder'},
       fields: 'id'
