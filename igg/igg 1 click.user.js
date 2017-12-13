@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  igg
-// @author       You
+// @author       wrenth04
 // @match        http://igg-games.com/*
 // @grant        none
 // ==/UserScript==
