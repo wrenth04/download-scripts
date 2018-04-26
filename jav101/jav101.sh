@@ -1,7 +1,7 @@
 #!/bin/bash
 
 url=$1
-id="$2"
+id=${url##*/}
 
 html=$(wget -U Mozilla --load-cookies=cookie --save-cookies=cookie --keep-session-cookies -q -O - "$url")
 
@@ -21,7 +21,8 @@ echo "$m3u8" | grep ts | while read u; do
   j=$((i+10000)); j=${j#1}
   i=$((i+1))
 
-  echo $j
+  echo -ne "\r$j"
+
   wget -q -O "$id-$j.ts" -U Mozilla --load-cookies=cookie "https://svt.jav101.com/$id/$u"
 done
 
@@ -29,4 +30,3 @@ cat $id*.ts > $id.tmp
 ffmpeg -y -i $id.tmp -c copy "$name"
 
 #ffmpeg -y -i "$m3u8" -headers "User-Agent: Mozilla" -headers "$(cat ffmpeg.cookie)\r\n" "$name"
-
