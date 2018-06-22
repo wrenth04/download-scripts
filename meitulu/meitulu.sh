@@ -14,7 +14,6 @@ while [ "$x" != "$x2" ]; do
   title=${x2#*p_title}; title=${title#*blank\">}; title=${title%%<*}
   title=$(echo "$title" | sed 's/\//\./g')
   echo "$url $title"
-break
 
   x=${x2}
   x2=${x#*<li>}
