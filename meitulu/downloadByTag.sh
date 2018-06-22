@@ -1,6 +1,9 @@
 #!/bin/bash
 
-tags="dachidu"
+tags="$1"
+if [ "x$tags" = "x" ]; then
+  tags="dachidu"
+fi
 
 for tag in $tags; do
   html=$(wget -U Mozilla -q -O - "https://www.meitulu.com/t/$tag/" | gzip -d)
