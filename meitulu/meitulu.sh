@@ -2,9 +2,8 @@
 
 url=$1
 id=${url#*/t/}; id=${id%%/*}
-#html=$(wget -U Mozilla -q -O - "$url" | gzip -d)
 
-html=$(cat page.html)
+html=$(wget -U Mozilla -q -O - "$url" | gzip -d)
 html=${html#*listtags}
 
 x=${html}
