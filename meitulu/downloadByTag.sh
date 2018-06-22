@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tags="$1"
+tags="$@"
 if [ "x$tags" = "x" ]; then
   tags="dachidu"
 fi
@@ -18,5 +18,6 @@ for tag in $tags; do
     else
       ./meitulu.sh "https://www.meitulu.com/t/$tag/$p.html"
     fi
+    p=$((p+1))
   done
 done
