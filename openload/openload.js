@@ -5,7 +5,12 @@ new Chromeless({launchChrome: false}).goto(url)
   .evaluate(() => {
     var video;
     try {
-      video = 'https://openload.co/stream/'+$('#streamurl, #streamuri, #streamurj').text();
+    var streamurl_src;
+    $('p[id]').each(function(){
+     streamurl_src = streamurl_src || ($(this).text().match(/^[\w\.~-]+$/) && $(this).text().match(/~/)) ? $(this).text() : streamurl_src;
+    });
+      //video = 'https://openload.co/stream/'+$('#streamurl, #streamuri, #streamurj').text();
+      video = 'https://openload.co/stream/'+streamurl_src;
     } catch(e) {
       video = 'video';
     }
