@@ -39,6 +39,15 @@ parse_username() {
 
     x1="$x2"
     x2=${x1#*text\":\"}
+  done | while read n; do
+    y1=$(echo "$n" | sed 's/\\n/ /g')
+    y2=${y1#*@}
+
+    while [ "$y1" != "$y2" ]; do
+      echo ${y2%% *}
+      y1="$y2"
+      y2=${y1#*@}
+    done
   done
 }
 
