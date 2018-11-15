@@ -11,7 +11,7 @@ title=${html#*title>}; title=${title%%<*};
 title=$(echo "$title" | sed 's/ | .*//')
 
 m3u8=$(echo "$html" | grep m3u8 | sed 's/\&amp;/\&/g')
-m3u8=${m3u8#*src=\"}
+m3u8=${m3u8#*videoSrc = \"}
 m3u8="https:${m3u8%%\"*}"
 m3u8=$(wget -q -O - -U "$AGENT" --load-cookies=cookie "$m3u8" | tr -d '\r')
 
