@@ -9,9 +9,14 @@ echo $bookname
 function page() {
 while read link title; do
   mkdir -p "$bookname/$title"
-  html=$(wget -U Mozilla -q -O - "http://www.chuixue.net$link")
-  packed=${html#*packed=\"}; packed=${packed%%\"*}
-  all=$(node decode.js "$packed")
+  html=$(wget -c -U Mozilla -q -O - "http://www.chuixue.net$link")
+  isEncode=$(echo "$html" | grep packed)
+  if [ "x$isEncode" != "x" ]; then
+    packed=${html#*packed=\"}; packed=${packed%%\"*}
+    all=$(node decode.js "$packed")
+  else
+    all=${html#*photosr}; all=${all%%script*}
+  fi
 
   i=1
   y=${all}
