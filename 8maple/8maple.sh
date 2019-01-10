@@ -4,6 +4,7 @@ url="$1"
 
 html=$(wget -U Moziila -q -O - "$url")
 title=${html#*entry-title\">}; title=${title%%<*}
+title=$(echo "$title" | sed 's/\//\./g')
 
 url2=${html#*push(\'}; url2=${url2%%\'*}
 url2="http://video.8maple.ru/m3u8/?w=600&h=445&url=$url2"
