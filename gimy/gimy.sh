@@ -4,8 +4,8 @@ url="$1"
 
 html=$(wget -U Mozilla -q -O - "$url")
 
-isPlay=$(echo "$url" | grep "play" | wc -l)
-if [ $isPlay != 0 ]; then
+isPlay=$(echo "$url" | grep "play")
+if [ "x$isPlay" != "x" ]; then
   m3u8=${html%%index.m3u8*}; m3u8=${m3u8##*https}
   m3u8=$(echo "https${m3u8}index.m3u8" | sed 's/\\\//\//g')
   title=${html#*title>}; title=${title%%<*}
@@ -16,8 +16,8 @@ if [ $isPlay != 0 ]; then
   exit
 fi
 
-isVideo=$(echo "$url" | grep "video" | wc -l)
-if [ $isVideo != 0 ]; then
+isVideo=$(echo "$url" | grep "video")
+if [ "x$isVideo" != "x" ]; then
   playlist=$(echo "$html" | grep -i 1080p | grep play)
   if [ "x$playlist" = "x" ]; then
     playlist=$(echo "$html" | grep -i 720p | grep play)
