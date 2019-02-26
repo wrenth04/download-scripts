@@ -14,6 +14,9 @@ echo "$title"
 echo "$img"
 echo "$video"
 
+if [ -e "$title.mp4" ]; then exit; fi
+
 title=$(echo "$title" | sed 's/\//\./g' | sed 's/  */ /g')
 wget -U Mozilla --referer "$url" -O "$title.jpg" "$img"
-wget -U Mozilla --referer "$url" -O "$title.mp4" "$video"
+wget -U Mozilla --referer "$url" -c -O "$title.mp4.inprogress" "$video"
+mv "$title.mp4.inprogress" "$title.mp4"
