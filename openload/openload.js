@@ -10,6 +10,7 @@ new Chromeless({launchChrome: false}).goto(url)
      streamurl_src = streamurl_src || ($(this).text().match(/^[\w\.~-]+$/) && $(this).text().match(/~/)) ? $(this).text() : streamurl_src;
     });
       //video = 'https://openload.co/stream/'+$('#streamurl, #streamuri, #streamurj').text();
+      streamurl_src = $('span').get(0).innerHTML;
       video = 'https://openload.co/stream/'+streamurl_src;
     } catch(e) {
       video = 'video';
