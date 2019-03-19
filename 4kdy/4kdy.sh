@@ -22,9 +22,10 @@ done | while read link; do
   title=${title%%</a*}; title=${title##*>}
   title=$(echo "$title" | sed 's/\//\./g')
   name="$title.mp4"
+  tmp="$title.inprogress.mp4"
   if [ -e "$name" ]; then continue; fi
   echo $name
   echo $m3u8
-  ffmpeg -y -nostdin -i $m3u8 -c copy "$title.inprogress.mp4"
-  mv "$title.inprogress.mp4" "$name"
+  ffmpeg -y -nostdin -i $m3u8 -c copy "$tmp"
+  mv "$tmp" "$name"
 done
