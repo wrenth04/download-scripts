@@ -19,7 +19,7 @@ while [ $id -ge $from ]; do
   id=$((id-1))
   n=$(gdrive list -q "name contains 'hellogirls.$id' and trashed = false" | wc -l)
   if [ $n != 1 ]; then continue; fi
-  echo -ne "\nid=$id\n"
+  echo -ne "\n$(date): id=$id\n"
 
   html=$(wget -q -O - -U "$AGENT" "https://www.helloavgirls.com/av/$id")
   title=$(echo "$html" | grep toptittle | sed 's/\//\./g')
@@ -33,6 +33,6 @@ while [ $id -ge $from ]; do
   echo "$img"
   echo "$video"
   wget -q -O - -U "$AGENT" "$video" | gdrive upload - -p $FID "$name"
-  wget -q -O - -U "$AGENT" "$img" | gdrive upload - -p $FID "${name%mp4}jpg"
+  wget -q -O - -U "$AGENT" --referer "https://www.helloavgirls.com/av/$id" "$img" | gdrive upload - -p $FID "${name%mp4}jpg"
 done
 
