@@ -17,14 +17,14 @@ fi
 id=$((to+1))
 while [ $id -ge $from ]; do
   id=$((id-1))
-  n=$(gdrive list -q "name contains 'hellgirls.$id' and trashed = false" | wc -l)
+  n=$(gdrive list -q "name contains 'hellogirls.$id' and trashed = false" | wc -l)
   if [ $n != 1 ]; then continue; fi
   echo -ne "\nid=$id\n"
 
   html=$(wget -q -O - -U "$AGENT" "https://www.helloavgirls.com/av/$id")
   title=$(echo "$html" | grep toptittle | sed 's/\//\./g')
   title=${title#*toptittle\">}; title=${title%%<*}
-  name="$title.helloavgirls.$id.mp4"
+  name="$title.hellogirls.$id.mp4"
   img=$(echo "$html" | grep "image:")
   img=${img#*\"}; img=${img%\"*}
   video=$(echo "$html" | grep "file:")
