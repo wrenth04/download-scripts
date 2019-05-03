@@ -9,7 +9,7 @@ from=${from:-1}
 to=${to:-999}
 
 output="list_$(date '+%Y%m%d'_${from}_${to}.csv)"
-echo "title, pan, code, link" >> $output
+echo "title, pan, code, link" > $output
 
 find_baidu() {
   link="https://bibgame.com$1"
