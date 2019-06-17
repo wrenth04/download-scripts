@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FID=""
+FID="1ZJ56nNKy-hgKb6jl33Cv7V001GRGTEht"
 
 url="$1"
 html=$(wget -U Mozilla -q -O - "$url")
@@ -31,7 +31,7 @@ done
 name="$title${tags:=}${models:=}.hpjav.mp4"
 img=${html#*background: url(}; img=${img%%)*}
 
-n=$(gdrive list -q "name='$name' and trashed=false" | wc -l)
+n=$(gdrive list -q "name contains '$title' and name contains 'hpjav.mp4' and trashed=false" | wc -l)
 if [ $n != 1 ]; then exit; fi
 echo $name
 echo $img
