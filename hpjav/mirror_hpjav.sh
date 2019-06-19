@@ -46,7 +46,6 @@ while [ $page -le $to ]; do
     echo $title
     ./hpjav.sh $link
   done
-  exit
 
   page=$((page+1))
 done

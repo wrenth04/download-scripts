@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FID="1ZJ56nNKy-hgKb6jl33Cv7V001GRGTEht"
+FID=""
 
 url="$1"
 html=$(wget -U Mozilla -q -O - "$url")
@@ -36,8 +36,18 @@ if [ $n != 1 ]; then exit; fi
 echo $name
 echo $img
 
+LOCK=/dev/shm/hpjav.lock 
+while :; do
+  if [ ! -e $LOCK ]; then
+    break
+  fi
+  sleep $((RANDOM%5))
+done
+
+touch $LOCK
 node launchChrome.js
 links=$(node hpjav.js "$url")
+rm $LOCK
 
 echo "$links" | while read link; do
   html=$(wget -U Mozilla -q -O - "https://verystream.com/stream/$link")
