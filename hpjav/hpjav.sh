@@ -31,7 +31,7 @@ done
 name="$title${tags:=}${models:=}.hpjav.mp4"
 img=${html#*background: url(}; img=${img%%)*}
 
-n=$(gdrive list -q "name contains '$title' and name contains 'hpjav.mp4' and trashed=false" | wc -l)
+n=$(gdrive list -q "name contains '${title:0:20}' and name contains 'hpjav.mp4' and trashed=false" | wc -l)
 if [ $n != 1 ]; then exit; fi
 echo $name
 echo $img
