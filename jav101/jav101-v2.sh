@@ -12,21 +12,12 @@ title=$(echo "$title" | sed 's/ | .*//')
 
 m3u8=$(echo "$html" | grep m3u8 | sed 's/\&amp;/\&/g')
 m3u8=${m3u8#*videoSrc = \"}
-m3u8="https:${m3u8%%\"*}"
-m3u8=$(wget -q -O - -U "$AGENT" --load-cookies=cookie "$m3u8" | tr -d '\r')
-
+m3u8="${m3u8%%\"*}"
+echo $m3u8
+tmp="$RANDOM.m3u8"
+wget -q -O $tmp -U "$AGENT" --load-cookies=cookie "$m3u8"
 echo $title
 name="$title.$id.mp4"
-
-i=0
-echo "$m3u8" | grep http | while read url; do
-  j=$((i+10000)); j=${j#1}
-  echo -ne "\r$j"
-  wget -q -O "$id-$j.ts" -U "$AGENT" --load-cookies=cookie "$url"
-  i=$((i+1))
-done
-cat $id*.ts > $id.tmp
-ffmpeg -y -i $id.tmp -c copy "$name"
-
-rm $id*
+ffmpeg -y -allowed_extensions ALL -protocol_whitelist "file,https,crypto,tcp,tls" -i "$tmp" -c copy "$name"
+rm $tmp
 
