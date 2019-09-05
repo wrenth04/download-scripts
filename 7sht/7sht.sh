@@ -1,3 +1,4 @@
+HOST="https://www.sehuatang.org"
 addjob() {
 magnet="$1"
 curl '127.0.0.1:6800/jsonrpc' -H 'content-type: application/json;charset=UTF-8' -H 'accept: application/json, text/plain, */*' --data-binary '{"jsonrpc":"2.0","method":"aria2.addUri","id":"QXJpYU5nXzE1NTMzNTAxNzVfMC45MTI0NzUxNjc0OTk3Mzk4","params":["token:jojo",["'$magnet'"],{}]}'
@@ -12,7 +13,7 @@ curl "127.0.0.1:6800/jsonrpc"  -H "Content-Type: application/json;charset=UTF-8"
 page=$1
 page=${page:-1}
 
-html=$(wget -q -O - "https://www.dsndsht23.com/forum-103-$page.html")
+html=$(wget -q -O - "$HOST/forum-103-$page.html")
 
 x=${html#*separatorline}
 x=${x%filter_special_menu*}
@@ -26,15 +27,15 @@ while [ "$x" != "$x2" ]; do
   x=${x2}
   x2=${x#*class=\"icn\"}
 done | while read link time title; do
-  html=$(wget -q -O - "https://www.dsndsht23.com/$link")
+  html=$(wget -q -O - "$HOST/$link")
   attachment=$(echo "$html" | grep torrent | grep href)
   id=${attachment%.torrent*}; id=${id##*>}
   attachment=${attachment#*href=\"}; attachment=${attachment%%\"*}
   attachment=$(echo "$attachment" | sed 's/amp;//g')
   n=$(gdrive list -q "name  = '$id' and trashed = false" | wc -l)
   echo $id
-  echo "https://www.dsndsht23.com/$attachment"
+  echo "$HOST/$attachment"
   if [ $n != 1 ]; then continue; fi
-  torrent=$(wget -q -O - "https://www.dsndsht23.com/$attachment"| base64)
+  torrent=$(wget -q -O - "$HOST/$attachment"| base64)
   add_torrent "$torrent"
 done
