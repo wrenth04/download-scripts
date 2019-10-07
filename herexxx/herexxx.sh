@@ -5,8 +5,8 @@ FID=
 from=$1
 to=$2
 
-if [ "x$form" = "x" ]; then from=1; fi
-if [ "x$form" = "x" ]; then to=40; fi
+if [ "x$from" = "x" ]; then from=1; fi
+if [ "x$to" = "x" ]; then to=40; fi
 
 check_drive() {
   id=$1
@@ -43,7 +43,8 @@ while read u; do
   if [ $(check_drive $id) != 1 ]; then continue; fi
 
   html=$(wget -q -O - "https://herexxx.com$u")
-  title=${html#*title>}; title=${title%%<*}; title=${title% - JAV Player*}
+  title=${html#*title>}; title=${title%%<*};
+  title=${title% - JAV Player*}; title=${title% - HereXXX*}
   image=${html#*image\" content=\"}; image=${image%%\"*}
   video=${html#*source src=\"}; video=${video%%\"*}
   
