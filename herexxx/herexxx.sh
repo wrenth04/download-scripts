@@ -13,6 +13,16 @@ check_drive() {
   gdrive list -q "'$FID' in parents and trashed = false and name contains 'herexxx.$id.mp4'" | wc -l
 }
 
+upload_drive() {
+  d_url="$1"
+  d_name="$2"
+  wget -q -O - "$d_url" | gdrive upload - -p $FID "$d_name"
+}
+
+log() {
+  echo "$(date) $1"
+}
+
 get_page() {
   p=$1
   url="https://herexxx.com/search/video/?s=%E7%A0%B4%E5%9D%8F%E7%89%88&o=recent&page=$p"
@@ -40,16 +50,15 @@ while read u; do
   title=$(safe_string "$title")
   name="$title.herexxx.$id"
 
-  echo "$(date) download $name"
-  wget -q -O - "$video" | gdrive upload - -p $FID "$name.mp4"
-  wget -q -O - "$image" | gdrive upload - -p $FID "$name.jpg"
+  log "download $name"
+  upload_drive "$video" "$name.mp4"
+  upload_drive "$image" "$name.jpg"
 done
 }
 
-
 p=$from
 while [ $p -le $to ]; do
-  echo "$(date) page $p"
+  log "page $p"
   get_page $p | get_video
   p=$((p+1))
 done
