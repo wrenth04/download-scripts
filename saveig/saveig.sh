@@ -19,7 +19,6 @@ while [ "x$cursor" != "x" ]; do
   echo "download $username page $p"
   api="https://saveig.org/api/posts?id=$id&cursor=$cursor&username=$username"
   json=$(wget -q -O - "$api")
-  echo "$json" >> log.txt
   cursor=${json#*cursor\":\"}; cursor=${cursor%%\"*}
   
   i=1
