@@ -5,10 +5,6 @@ AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML
 url=$1
 id=${url##*/}
 
-
-n=$(gdrive list -q "name contains '$id' and trashed=false" | wc -l)
-if [ $n -gt 1 ]; then exit; fi
-
 html=$(wget -U "$AGENT" --load-cookies=cookie --save-cookies=cookie --keep-session-cookies -q -O - "$url")
 
 title=${html#*title>}; title=${title%%<*};
